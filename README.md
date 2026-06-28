@@ -13,7 +13,7 @@ Key ideas:
 - A dusk-to-glow scroll narrative that blends between scenes instead of feeling like separate slides.
 - A realistic, to-scale floorplan for a 30.0 m by 18.0 m reception floor.
 - Clickable floorplan sections with animated rendering previews and sensory notes.
-- A launch-day countdown styled as an overgrown botanical timepiece.
+- A launch-day countdown integrated into the opening sanctuary scene.
 - A foundation-forward tee reveal with the launch product treated as a quiet, meaningful crescendo.
 
 ## Project Structure
