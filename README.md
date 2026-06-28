@@ -20,6 +20,7 @@ Key ideas:
 
 - `cotton-on-foundation-launch-experience.html` - the full static website.
 - `assets/images/` - hero imagery, zone renderings, and T-shirt artwork.
+- `assets/videos/` - short animated previews for the clickable floorplan zones.
 - `assets/music/` - the background soundtrack.
 
 ## Run Locally
