@@ -1,13 +1,26 @@
 # Cotton On Foundation Website Mockup
 
-An immersive static website mockup for a Cotton On Foundation launch experience, built as a scroll-led biophilic sanctuary with sensory navigation, ambient audio, a launch-day countdown, floorplan interactions, and realistic section renderings.
+An immersive one-page website mockup for a Cotton On Foundation launch experience called **Where Good Takes Root**.
+
+The site is designed as a vertical sensory journey through a biophilic sanctuary at dusk. Guests begin at a planted threshold, move through the Foundation pillars of Learning, Wellbeing, and Green Cities, then arrive at a launch tee reveal and give-back exit. The visual world is intentionally dark, warm, and botanical: moss, canopy light, soft amber highlights, realistic section renderings, and an ambient soundtrack support the feeling of entering a living indoor garden rather than a standard campaign page.
+
+## Concept
+
+The experience keeps the Cotton On Foundation work at the centre. The T-shirt appears late in the journey as the final lift, not the opening sales message. Each floorplan zone connects to sensory cues so the mockup explains how the real launch space could feel in person: light, sound, scent, texture, and taste.
+
+Key ideas:
+
+- A dusk-to-glow scroll narrative that blends between scenes instead of feeling like separate slides.
+- A realistic, to-scale floorplan for a 30.0 m by 18.0 m reception floor.
+- Clickable floorplan sections with animated rendering previews and sensory notes.
+- A launch-day countdown styled as an overgrown botanical timepiece.
+- A foundation-forward tee reveal with the launch product treated as a quiet, meaningful crescendo.
 
 ## Project Structure
 
-- `cotton-on-foundation-launch-experience.html` - the full static site.
+- `cotton-on-foundation-launch-experience.html` - the full static website.
 - `assets/images/` - hero imagery, zone renderings, and T-shirt artwork.
-- `assets/music/` - background soundtrack.
-- `vercel.json` - rewrites the Vercel root URL to the experience page.
+- `assets/music/` - the background soundtrack.
 
 ## Run Locally
 
@@ -32,20 +45,3 @@ Use ISO date format with Singapore timezone, for example:
 ```html
 data-launch="2026-11-21T19:00:00+08:00"
 ```
-
-## Deploy To Vercel
-
-1. Push the latest repo changes to GitHub.
-2. Go to [Vercel](https://vercel.com/) and choose **Add New Project**.
-3. Import `Chi944/CottonOn-website-mockup`.
-4. Use **Other** as the framework preset.
-5. Leave the build command empty.
-6. Leave the output directory as `.`.
-7. Click **Deploy**.
-
-The included `vercel.json` makes the Vercel root path open the experience automatically.
-
-## References
-
-- [Vercel build settings](https://vercel.com/docs/builds/configure-a-build)
-- [Deploying GitHub projects with Vercel](https://vercel.com/docs/git/vercel-for-github)
