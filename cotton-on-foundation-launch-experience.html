@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Where Good Takes Root · Cotton On Foundation Launch · Atmospherics Studio</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;700;800&display=swap');
+:root{
+  --night:#07120e;--forest:#0e1f18;--moss:#2f5a44;--sage:#6f9b78;--fern:#a9c9a3;
+  --glow:#ecc079;--glow-soft:#f6dca6;--cream:#f2eee2;--amber:#d6a25a;
+  --scrim:rgba(5,12,9,.58);
+  --serif:'Cormorant Garamond','Iowan Old Style','Hoefler Text',Garamond,Georgia,serif;
+  --sans:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-snap-type:y proximity}
+body{font-family:var(--sans);color:var(--cream);background:radial-gradient(120% 90% at 50% -10%, #16271f 0%, var(--forest) 38%, var(--night) 100%);overflow-x:hidden;line-height:1.55;-webkit-font-smoothing:antialiased;opacity:0;transition:opacity 1.1s ease}
+body.ready{opacity:1}
+
+#atmos{position:fixed;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
+
+/* top bar */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:30;display:flex;align-items:center;justify-content:space-between;padding:18px clamp(18px,4vw,46px);background:linear-gradient(to bottom, rgba(6,13,10,.55), rgba(6,13,10,0));pointer-events:none}
+.wordmark{pointer-events:auto;display:flex;flex-direction:column;line-height:1.15}
+.wordmark b{font-family:var(--serif);font-weight:600;font-size:clamp(15px,2.4vw,19px);letter-spacing:.14em;text-transform:uppercase}
+.wordmark span{font-size:10px;letter-spacing:.34em;text-transform:uppercase;color:var(--sage)}
+.sound-btn{pointer-events:auto;cursor:pointer;display:inline-flex;align-items:center;gap:10px;font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--cream);background:rgba(10,22,17,.42);border:1px solid rgba(169,201,163,.32);border-radius:999px;padding:9px 16px;backdrop-filter:blur(6px);transition:border-color .4s,background .4s,color .4s}
+.sound-btn:hover{border-color:var(--glow);color:var(--glow-soft)}
+.sound-btn:focus-visible{outline:2px solid var(--glow);outline-offset:3px}
+.eq{display:inline-flex;align-items:flex-end;gap:2px;height:13px}
+.eq i{width:2.5px;height:4px;background:var(--sage);border-radius:2px}
+.sound-btn[aria-pressed="true"] .eq i{background:var(--glow);animation:bounce 1s ease-in-out infinite}
+.sound-btn[aria-pressed="true"] .eq i:nth-child(2){animation-delay:.18s}
+.sound-btn[aria-pressed="true"] .eq i:nth-child(3){animation-delay:.36s}
+.sound-btn[aria-pressed="true"] .eq i:nth-child(4){animation-delay:.12s}
+@keyframes bounce{0%,100%{height:4px}50%{height:13px}}
+.sound-label-on{display:none}
+.sound-btn[aria-pressed="true"] .sound-label-off{display:none}
+.sound-btn[aria-pressed="true"] .sound-label-on{display:inline}
+@keyframes hintpulse{0%,100%{box-shadow:0 0 0 0 rgba(236,192,121,0)}50%{box-shadow:0 0 0 5px rgba(236,192,121,.16)}}
+.sound-btn.hint{border-color:var(--glow);color:var(--glow-soft);animation:hintpulse 2.2s ease-in-out infinite}
+
+/* legend */
+.legend{position:fixed;left:clamp(10px,2.2vw,28px);top:50%;transform:translateY(-50%);z-index:25;display:flex;flex-direction:column;gap:16px;pointer-events:none}
+.sense{display:flex;align-items:center;gap:11px;opacity:.34;transition:opacity .7s ease;pointer-events:auto;cursor:pointer;border-radius:50%}
+.sense:hover{opacity:.85}
+.sense:focus-visible{outline:2px solid var(--glow);outline-offset:4px}
+.sense.active{opacity:1}
+.sense .dot{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px solid rgba(169,201,163,.3);background:rgba(8,18,13,.4);transition:border-color .7s,box-shadow .7s,background .7s}
+.sense.active .dot{border-color:var(--glow);background:rgba(46,42,24,.5);box-shadow:0 0 22px rgba(236,192,121,.4)}
+.sense svg{width:17px;height:17px;stroke:var(--fern);fill:none;stroke-width:1.4;transition:stroke .7s}
+.sense.active svg{stroke:var(--glow-soft)}
+
+.stem{position:fixed;top:14vh;right:clamp(10px,2.6vw,28px);bottom:14vh;width:2px;z-index:24;background:rgba(169,201,163,.16);border-radius:2px;pointer-events:none}
+.stem-fill{position:absolute;left:0;top:0;width:100%;height:0;border-radius:2px;background:linear-gradient(var(--moss),var(--sage),var(--glow));transition:height .12s linear}
+.stem-leaf{position:absolute;left:50%;width:9px;height:9px;border-radius:0 50% 50% 50%;background:var(--glow);transform:translate(-50%,-50%) rotate(45deg);box-shadow:0 0 12px var(--glow)}
+
+/* scenes */
+.scene{position:relative;z-index:2;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:14vh clamp(20px,7vw,120px) 14vh;overflow:hidden;scroll-snap-align:start}
+.bg{position:absolute;inset:-2px;z-index:0;overflow:hidden}
+.bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(4,10,7,.82) 0%, rgba(5,12,9,.54) 42%, rgba(5,12,9,.18) 74%),linear-gradient(to bottom, rgba(5,12,9,.48), rgba(5,12,9,.12) 26%, rgba(5,12,9,.14) 68%, rgba(5,12,9,.68))}
+.layer{position:absolute;inset:0;will-change:transform}
+.scene-photo{background-image:var(--photo);background-size:cover;background-position:center;opacity:.62;filter:saturate(.92) contrast(1.08) brightness(.74);transform:scale(1.035);will-change:transform}
+.cover .scene-photo{opacity:.72;filter:saturate(.94) contrast(1.06) brightness(.7)}
+.planscene .scene-photo{opacity:.48;filter:saturate(.85) contrast(1.05) brightness(.55)}
+.reveal .scene-photo{opacity:.7;filter:saturate(.96) contrast(1.05) brightness(.82)}
+.canopy{background:radial-gradient(60% 42% at 18% -8%, rgba(20,46,33,.95), transparent 70%),radial-gradient(52% 40% at 64% -10%, rgba(15,38,27,.92), transparent 72%),radial-gradient(46% 36% at 92% -6%, rgba(26,54,38,.9), transparent 70%)}
+.under{background:radial-gradient(70% 46% at 22% 108%, rgba(13,33,24,.96), transparent 68%),radial-gradient(60% 42% at 78% 112%, rgba(18,42,30,.92), transparent 70%)}
+.haze{background:radial-gradient(80% 70% at var(--lx,50%) var(--ly,40%), rgba(236,192,121,.16), transparent 60%)}
+.glowpool{background:radial-gradient(38% 30% at var(--lx,50%) var(--ly,46%), rgba(246,220,166,.32), rgba(236,192,121,.07) 45%, transparent 66%);mix-blend-mode:screen}
+.shaft{position:absolute;top:-16%;width:30vw;height:150%;filter:blur(22px);mix-blend-mode:screen;opacity:.5;background:linear-gradient(180deg, rgba(246,220,166,.5), rgba(236,192,121,.05) 60%, transparent);transform-origin:top center}
+.shaft.s1{left:8%;transform:rotate(11deg)}
+.shaft.s2{left:40%;width:22vw;transform:rotate(7deg);opacity:.4}
+.shaft.s3{left:70%;width:26vw;transform:rotate(14deg);opacity:.45}
+.vines{position:absolute;top:-2px;left:0;right:0;height:48%;pointer-events:none}
+.vine{position:absolute;top:0;width:2px;background:linear-gradient(rgba(111,155,120,.5),rgba(111,155,120,0));transform-origin:top center;animation:sway 7s ease-in-out infinite}
+.vine i{position:absolute;width:11px;height:11px;border-radius:0 60% 60% 60%;background:rgba(111,155,120,.7);transform:rotate(45deg);left:-5px}
+@keyframes sway{0%,100%{transform:rotate(-2.2deg)}50%{transform:rotate(2.2deg)}}
+.livingwall{position:absolute;inset:0}
+.livingwall .leaf{position:absolute;border-radius:0 64% 64% 64%;opacity:.9;transform-origin:center;animation:breathe 9s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1) rotate(var(--r))}50%{transform:scale(1.06) rotate(calc(var(--r) + 3deg))}}
+
+.panel{position:relative;z-index:3;max-width:560px;opacity:0;transform:translateY(30px);filter:blur(7px);transition:opacity 1.1s ease,transform 1.1s cubic-bezier(.16,.8,.3,1),filter 1s ease}
+.scene.in .panel{opacity:1;transform:none;filter:blur(0)}
+.eyebrow{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amber);margin-bottom:18px;display:flex;align-items:center;gap:12px}
+.eyebrow::before{content:"";width:30px;height:1px;background:var(--amber);opacity:.7}
+.panel h2{font-family:var(--serif);font-weight:500;font-size:clamp(34px,6vw,62px);line-height:1.02;letter-spacing:-.01em;margin-bottom:22px}
+.panel h2 em{font-style:italic;color:var(--glow-soft)}
+.panel p{font-size:clamp(15px,1.7vw,17.5px);color:rgba(242,238,226,.86);font-weight:300;max-width:48ch}
+.panel p + p{margin-top:14px}
+.craft{margin-top:26px;padding:14px 18px;border-left:2px solid rgba(214,162,90,.55);background:rgba(8,18,13,.34);border-radius:0 8px 8px 0;backdrop-filter:blur(3px);transition:transform .5s ease,border-left-color .5s ease}
+.craft:hover{transform:translateX(3px);border-left-color:var(--glow)}
+.craft b{display:block;font-size:10.5px;letter-spacing:.26em;text-transform:uppercase;color:var(--amber);margin-bottom:5px;font-weight:500}
+.craft span{font-size:13.5px;color:rgba(242,238,226,.78);font-weight:300;line-height:1.5}
+
+/* cover */
+.cover{align-items:center;justify-content:center;text-align:center}
+.cover .panel{max-width:780px;opacity:1;transform:none;filter:none}
+.cover .kicker{font-size:11px;letter-spacing:.4em;text-transform:uppercase;color:var(--sage);margin-bottom:30px}
+.cover h1{font-family:var(--serif);font-weight:500;font-size:clamp(48px,11vw,118px);line-height:.96;letter-spacing:-.02em;margin-bottom:8px}
+.cover h1 em{font-style:italic;color:var(--glow-soft)}
+.cover .sub{font-family:var(--serif);font-size:clamp(18px,3vw,26px);color:var(--fern);font-style:italic;margin-bottom:6px}
+.cover .meta{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--sage);margin-bottom:26px}
+.cover-note{font-size:13px;letter-spacing:.02em;color:rgba(169,201,163,.82);font-weight:300;max-width:42ch;margin:0 auto 32px}
+.begin{cursor:pointer;font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--night);background:linear-gradient(120deg,var(--glow),var(--glow-soft));border:none;border-radius:999px;padding:15px 30px;display:inline-flex;align-items:center;gap:12px;box-shadow:0 14px 40px rgba(236,192,121,.28);transition:transform .4s,box-shadow .4s}
+.begin:hover{transform:translateY(-2px);box-shadow:0 18px 52px rgba(236,192,121,.42)}
+.begin:focus-visible{outline:2px solid var(--cream);outline-offset:3px}
+.scrollcue{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:9px;color:var(--sage);font-size:10px;letter-spacing:.28em;text-transform:uppercase}
+.scrollcue .mouse{width:20px;height:32px;border:1px solid rgba(169,201,163,.5);border-radius:12px;position:relative}
+.scrollcue .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;background:var(--fern);border-radius:2px;animation:scrolld 1.8s ease-in-out infinite}
+@keyframes scrolld{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,11px)}}
+
+/* reveal */
+.reveal{justify-content:space-between;gap:40px}
+.reveal .panel{max-width:470px}
+.plinth{position:relative;z-index:3;flex:0 0 auto;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(46px) scale(.95);transition:opacity 1.2s ease .15s,transform 1.3s cubic-bezier(.16,.8,.3,1) .15s}
+.reveal.in .plinth{opacity:1;transform:none}
+.tee{filter:drop-shadow(0 26px 60px rgba(0,0,0,.5));animation:teefloat 6s ease-in-out infinite}
+@keyframes teefloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.pedestal{width:200px;height:54px;margin-top:-6px;background:radial-gradient(60% 120% at 50% 0%, rgba(246,220,166,.5), rgba(20,42,30,.3));border-radius:50%;filter:blur(2px)}
+.profit{margin-top:20px;font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--glow-soft);text-align:center}
+.swingtag{margin-top:12px;font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--sage);text-align:center;max-width:240px}
+.swingtag b{display:block;color:var(--glow-soft);font-weight:500;letter-spacing:.16em;font-size:11px;margin-bottom:4px}
+
+/* close */
+.close{align-items:center;justify-content:center;text-align:center}
+.close .panel{max-width:720px;opacity:0}
+.promise{font-family:var(--serif);font-style:italic;font-size:clamp(22px,3.6vw,34px);line-height:1.3;color:var(--cream);margin:30px auto 0;max-width:24ch}
+.signoff{margin-top:34px;font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--sage)}
+.sprout{margin:0 auto 6px;display:block}
+.disclaimer{margin-top:44px;font-size:10.5px;letter-spacing:.06em;color:rgba(169,201,163,.5);font-weight:300;max-width:56ch;margin-left:auto;margin-right:auto}
+
+/* plan scene */
+.planscene{flex-direction:column;justify-content:center;padding-top:16vh}
+.planscene .planhead{position:relative;z-index:3;max-width:720px;margin:0 auto 22px;text-align:center}
+.planscene .eyebrow{justify-content:center}
+.planhead p{margin:0 auto;max-width:54ch}
+.planchips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+.planchips span{font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--fern);border:1px solid rgba(169,201,163,.24);border-radius:999px;padding:6px 12px}
+.planwrap{position:relative;z-index:3;width:min(1060px,94vw);margin:0 auto;background:linear-gradient(145deg, rgba(9,20,15,.92), rgba(17,34,25,.76));border:1px solid rgba(169,201,163,.28);border-radius:14px;padding:clamp(12px,2vw,22px);box-shadow:0 26px 90px rgba(0,0,0,.45),inset 0 0 80px rgba(0,0,0,.28)}
+#plan{display:block;width:100%;height:auto;border-radius:10px;background:#091510}
+.pz{cursor:pointer}
+.pz rect.zrect{transition:fill .3s,stroke .3s,filter .3s}
+.pz:hover rect.zrect{fill:rgba(236,192,121,.18);stroke:var(--glow);filter:drop-shadow(0 0 0.18px rgba(246,220,166,.8))}
+.pz:focus-visible{outline:none}
+.pz:focus-visible rect.zrect{stroke:var(--glow);stroke-width:.14}
+.planhint{text-align:center;font-size:11px;letter-spacing:.04em;color:rgba(169,201,163,.76);margin-top:12px}
+
+/* modal */
+.modal{position:fixed;inset:0;z-index:60;display:none;align-items:center;justify-content:center;padding:clamp(14px,4vw,40px);background:rgba(4,10,7,.74);backdrop-filter:blur(8px)}
+.modal.open{display:flex}
+.modalcard{position:relative;width:min(920px,96vw);max-height:92vh;overflow:auto;background:radial-gradient(120% 100% at 50% 0%, #15271e, #0a1812);border:1px solid rgba(169,201,163,.26);border-radius:18px;padding:clamp(18px,3vw,30px);box-shadow:0 30px 90px rgba(0,0,0,.6)}
+.mclose{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:1px solid rgba(169,201,163,.3);background:rgba(8,18,13,.6);color:var(--cream);cursor:pointer;font-size:16px;line-height:1;display:grid;place-items:center;transition:border-color .3s,color .3s}
+.mclose:hover{border-color:var(--glow);color:var(--glow-soft)}
+.mockeyebrow{font-size:10.5px;letter-spacing:.3em;text-transform:uppercase;color:var(--amber);margin-bottom:7px}
+.modalcard h3{font-family:var(--serif);font-weight:500;font-size:clamp(26px,4.5vw,38px);line-height:1.02;margin-bottom:16px}
+.mockstage{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;border:1px solid rgba(169,201,163,.2);background:#091410;box-shadow:inset 0 0 0 1px rgba(255,255,255,.035)}
+.mockstage::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom, rgba(5,12,9,0), rgba(5,12,9,.18));pointer-events:none}
+.mockphoto{display:block;width:100%;height:100%;object-fit:cover;filter:saturate(.97) contrast(1.03)}
+.mockcaption{position:absolute;left:16px;bottom:14px;z-index:2;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:rgba(246,220,166,.82);background:rgba(5,12,9,.48);border:1px solid rgba(246,220,166,.18);border-radius:999px;padding:7px 11px;backdrop-filter:blur(6px)}
+.mockdot{position:absolute;border-radius:50%;background:rgba(246,220,166,.7);filter:blur(.5px);animation:mfloat 7s ease-in-out infinite;pointer-events:none}
+@keyframes mfloat{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-14px);opacity:1}}
+.mockblurb{font-size:15px;color:rgba(242,238,226,.88);font-weight:300;margin:18px 0 4px;line-height:1.55}
+.mockchips{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.mchip{display:flex;gap:10px;align-items:flex-start;border:1px solid rgba(169,201,163,.18);border-radius:10px;padding:11px 13px;background:rgba(8,18,13,.4)}
+.mchip svg{width:18px;height:18px;stroke:var(--glow-soft);fill:none;stroke-width:1.4;flex:0 0 auto;margin-top:2px}
+.mchip b{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber);margin-bottom:3px}
+.mchip span{font-size:12.5px;color:rgba(242,238,226,.82);font-weight:300;line-height:1.45}
+
+@media (max-width:820px){
+  .legend{left:50%;right:auto;top:auto;bottom:14px;transform:translateX(-50%);flex-direction:row;gap:12px;padding:8px 14px;border-radius:999px;background:rgba(7,16,12,.55);border:1px solid rgba(169,201,163,.2);backdrop-filter:blur(8px);z-index:28}
+  .sense .dot{width:30px;height:30px}
+  .cover .scrollcue{display:none}
+  .scene{padding:16vh 22px 18vh}
+  .reveal{flex-direction:column;align-items:flex-start;text-align:left}
+  .reveal .panel{max-width:none}
+  .stem{display:none}
+  .sound-label-off,.sound-label-on{display:none!important}
+  .sound-btn{padding:10px}
+  .mockchips{grid-template-columns:1fr}
+  .planscene{padding-bottom:16vh}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;scroll-snap-type:none}
+  .vine,.livingwall .leaf,.eq i,.scrollcue .mouse::after,.tee,.mockdot{animation:none!important}
+  .panel,.close .panel{transition:opacity .4s ease;transform:none;filter:none!important}
+  .plinth{opacity:1;transform:none;transition:none}
+  body{opacity:1}
+}
+</style>
+</head>
+<body data-scene="cover">
+
+<canvas id="atmos" aria-hidden="true"></canvas>
+<audio id="siteTrack" preload="none" loop src="assets/background-music.mp3"></audio>
+
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="i-light" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></symbol>
+  <symbol id="i-texture" viewBox="0 0 24 24"><path d="M12 3c4 3 5 7 0 11-5-4-4-8 0-11Z"/><path d="M12 8c3 2 3.5 5 0 8"/></symbol>
+  <symbol id="i-sound" viewBox="0 0 24 24"><path d="M5 12a7 7 0 0 1 14 0"/><path d="M8 12a4 4 0 0 1 8 0"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-taste" viewBox="0 0 24 24"><path d="M7 4h10l-1 6a4 4 0 0 1-8 0Z"/><path d="M12 14v6M9 21h6"/></symbol>
+  <symbol id="i-smell" viewBox="0 0 24 24"><path d="M9 21c0-3 3-3 3-6s-3-3-3-6 3-3 3-6"/><path d="M15 21c0-3 2-3 2-6"/></symbol>
+</svg>
+
+<header class="topbar">
+  <div class="wordmark"><b>Atmospherics Studio</b><span>Sensory experience design</span></div>
+  <button class="sound-btn" id="sound" aria-pressed="false" aria-label="Toggle ambient soundscape">
+    <span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="sound-label-off">Sound</span><span class="sound-label-on">Sound on</span>
+  </button>
+</header>
+
+<nav class="legend" aria-label="Five senses, tap to jump to each moment">
+  <div class="sense" data-sense="light" data-go="threshold" role="button" tabindex="0" aria-label="Light, jump to the threshold"><span class="dot"><svg><use href="#i-light"/></svg></span></div>
+  <div class="sense" data-sense="texture" data-go="learning" role="button" tabindex="0" aria-label="Texture, jump to Learning"><span class="dot"><svg><use href="#i-texture"/></svg></span></div>
+  <div class="sense" data-sense="sound" data-go="wellbeing" role="button" tabindex="0" aria-label="Sound, jump to Wellbeing"><span class="dot"><svg><use href="#i-sound"/></svg></span></div>
+  <div class="sense" data-sense="taste" data-go="tasting" role="button" tabindex="0" aria-label="Taste, jump to the Tasting Garden"><span class="dot"><svg><use href="#i-taste"/></svg></span></div>
+  <div class="sense" data-sense="smell" data-go="greencities" role="button" tabindex="0" aria-label="Smell, jump to Green Cities"><span class="dot"><svg><use href="#i-smell"/></svg></span></div>
+</nav>
+
+<div class="stem" aria-hidden="true"><div class="stem-fill" id="stemfill"><span class="stem-leaf"></span></div></div>
+
+<main>
+
+  <section class="scene cover" data-key="cover" data-senses="" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/hero-sanctuary.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.05"></div><div class="layer haze" style="--lx:50%;--ly:30%"></div><div class="layer under" data-depth="0.10"></div><div class="vines" id="vines-cover"></div></div>
+    <div class="panel">
+      <div class="kicker">An Atmospherics Studio sensory experience</div>
+      <h1>Where Good<br><em>Takes Root</em></h1>
+      <div class="sub">A launch experience for the Cotton On Foundation</div>
+      <div class="meta">Singapore, late 2026</div>
+      <p class="cover-note">Scroll down to move through the night, one sense at a time. Tap a sense on the side to jump to its moment, and turn the sound on for the full effect.</p>
+      <button class="begin" id="begin" type="button"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Begin the soundscape</button>
+    </div>
+    <div class="scrollcue"><span class="mouse"></span>Descend</div>
+  </section>
+
+  <section class="scene" data-key="threshold" data-senses="light,smell,sound" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-threshold.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.06"></div><div class="layer glowpool" style="--lx:30%;--ly:42%" data-depth="-0.04"></div><div class="shaft s1"></div><div class="shaft s3"></div><div class="layer under" data-depth="0.12"></div></div>
+    <div class="panel">
+      <div class="eyebrow">The Threshold</div>
+      <h2>The city softens<br>into <em>green</em>.</h2>
+      <p>Guests step in off the street and the noise drops away. Before anyone says a word about the Foundation, they can already feel that the night is about something good.</p>
+      <div class="craft"><b>The craft</b><span>We set the first impression with three things working at once. A cool green and blossom note in the air, lifted from the Foundation's own scents. A low wash of warm light. A quiet bed of water and leaves running under the room.</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-key="learning" data-senses="light,texture" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-learning.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.05"></div><div class="layer glowpool" style="--lx:34%;--ly:50%" data-depth="-0.05"></div><div class="shaft s1"></div><div class="layer under" data-depth="0.11"></div></div>
+    <div class="panel">
+      <div class="eyebrow">Pillar one, Learning</div>
+      <h2>A room that feels<br>like <em>learning</em>.</h2>
+      <p>This is where the education work lives for the night. Scholarships, schools and reading programmes across the region, gathered inside a pool of warm light. Everything you touch here is honest: recycled paper, woven cloth, raw timber.</p>
+      <div class="craft"><b>The craft</b><span>The materials carry the message. Every surface in this zone is recycled or reclaimed, so guests feel the ethics of the work in their hands instead of reading it off a sign.</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-key="wellbeing" data-senses="sound,smell" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-wellbeing.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.04"></div><div class="layer haze" style="--lx:58%;--ly:46%;background:radial-gradient(70% 60% at 58% 46%, rgba(120,170,150,.18), transparent 60%)" data-depth="-0.03"></div><div class="layer under" data-depth="0.10"></div></div>
+    <div class="panel">
+      <div class="eyebrow">Pillar two, Wellbeing</div>
+      <h2>A quieter place<br>to <em>breathe</em>.</h2>
+      <p>For the mental health programmes, the room slows down. The light cools, the sound thins out, and a clean note of green tea and water gives everyone permission to stop for a moment. It is a small taste of the calm these programmes work to protect.</p>
+      <div class="craft"><b>The craft</b><span>Nothing here is loud. The sound sits low and unhurried and the scent stays clean, so the calm feels designed rather than decorated.</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-key="greencities" data-senses="texture,light,smell" data-mood="base">
+    <div class="bg">
+      <div class="layer scene-photo" style="--photo:url('assets/zone-green-cities.png')" data-depth="0.03"></div>
+      <div class="livingwall" id="wall" data-depth="0.04"></div>
+      <div class="layer glowpool" style="--lx:50%;--ly:34%" data-depth="-0.05"></div>
+      <div class="shaft s1"></div><div class="shaft s2"></div><div class="shaft s3"></div>
+      <div class="layer under" data-depth="0.12"></div>
+    </div>
+    <div class="panel">
+      <div class="eyebrow">Pillar three, Green Cities</div>
+      <h2>The <em>canopy</em>.</h2>
+      <p>At the centre of the room stands a living wall, the Green Cities project grown indoors. Light comes through it in shafts, the way late sun moves through real trees. This is the Foundation's environmental work turned into a place you can stand inside.</p>
+      <div class="craft"><b>The craft</b><span>Real plants, layered canopy light and the smell of soil after rain. This is the high point of the night, and it lands just before the celebration begins.</span></div>
+    </div>
+  </section>
+
+  <section class="scene" data-key="tasting" data-senses="taste,smell" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-tasting.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.05"></div><div class="layer glowpool" style="--lx:66%;--ly:50%" data-depth="-0.04"></div><div class="shaft s3"></div><div class="layer under" data-depth="0.11"></div></div>
+    <div class="panel">
+      <div class="eyebrow">The Tasting Garden</div>
+      <h2>Taste from the<br>same <em>garden</em>.</h2>
+      <p>A signature Green Cities pour, botanical and herbal, made garden to glass and served zero waste by our licensed partners. There is a spirited version and an alcohol free one, side by side. It is the fifth sense, and usually the one people remember on the way out.</p>
+      <div class="craft"><b>The craft</b><span>The flavour is built to match the room: green, clean and bright with citrus, with a nod to the Foundation's own mints, so taste and scent tell the same story.</span></div>
+    </div>
+  </section>
+
+  <section class="scene reveal" data-key="reveal" data-senses="light,texture,sound,taste,smell" data-mood="bright">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-reveal.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.04"></div><div class="layer glowpool" style="--lx:72%;--ly:46%;background:radial-gradient(46% 40% at 72% 46%, rgba(246,224,176,.5), rgba(236,192,121,.12) 45%, transparent 68%)" data-depth="-0.05"></div><div class="shaft s1"></div><div class="shaft s2"></div><div class="shaft s3"></div><div class="layer under" data-depth="0.10"></div></div>
+    <div class="panel">
+      <div class="eyebrow">The Reveal</div>
+      <h2>And then the<br>light <em>lifts</em>.</h2>
+      <p>Only now does the room brighten. The launch tee rises on a single plinth, the kinder, braver world design made with the Born This Way Foundation, with every cent of profit going back to the Cotton On Foundation. The clothes are the thank you the evening has earned, not the reason it started.</p>
+      <div class="craft"><b>The craft</b><span>Light, sound and scent all step up at once. The lift makes the range feel like a gift to guests rather than a sales pitch.</span></div>
+    </div>
+    <div class="plinth">
+      <div id="teeMount"></div>
+      <div class="pedestal"></div>
+      <div class="profit">100% of profits to the Cotton On Foundation</div>
+      <div class="swingtag"><b>Limited launch tee</b>Made with the Born This Way Foundation</div>
+    </div>
+  </section>
+
+  <section class="scene close" data-key="pledge" data-senses="light,texture,sound,taste,smell" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/zone-pledge.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.05"></div><div class="layer haze" style="--lx:50%;--ly:40%" data-depth="-0.04"></div><div class="layer under" data-depth="0.10"></div></div>
+    <div class="panel">
+      <div class="eyebrow" style="justify-content:center">The Pledge</div>
+      <svg class="sprout" width="46" height="56" viewBox="0 0 46 56" aria-hidden="true"><path d="M23 54V24" stroke="#6f9b78" stroke-width="2" fill="none"/><path d="M23 30C14 30 8 24 8 15c9 0 15 6 15 15Z" fill="#6f9b78"/><path d="M23 26c9 0 15-6 15-15-9 0-15 6-15 15Z" fill="#a9c9a3"/></svg>
+      <h2 style="font-size:clamp(30px,5vw,52px)">What you carry <em>home</em>.</h2>
+      <p style="margin-left:auto;margin-right:auto;text-align:center">Guests leave with a Foundation tote, the launch tee and a small Green Cities sapling. They also leave with a memory that sits at the level of feeling. Good, given somewhere to grow.</p>
+      <p class="promise">"Every space we touch is designed to be felt: coherently, across all five senses, and remembered."</p>
+      <div class="signoff">Atmospherics Studio, for the Cotton On Foundation</div>
+    </div>
+  </section>
+
+  <section class="scene planscene" data-key="plan" data-senses="light,texture,sound,taste,smell" data-mood="base">
+    <div class="bg"><div class="layer scene-photo" style="--photo:url('assets/hero-sanctuary.png')" data-depth="0.03"></div><div class="layer canopy" data-depth="0.04"></div><div class="layer under" data-depth="0.08"></div></div>
+    <div class="planhead panel">
+      <div class="eyebrow">The Plan</div>
+      <h2>How the night<br>is <em>laid out</em>.</h2>
+      <p>Here is the whole floor from above. Seven sensory zones, arranged so guests move through them in order, from the entrance to the send off. Tap any zone to see how it looks and how it works on the senses.</p>
+      <div class="planchips"><span>30.0 x 18.0 m</span><span>540 sqm</span><span>About 140 guests, standing</span><span>Indicative 1:100</span></div>
+    </div>
+    <div class="planwrap">
+      <svg id="plan" viewBox="-2.8 -2.2 35.6 23.5" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Top-down floor plan. Tap a zone for a closer look.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4.1" markerHeight="4.1" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#ecc079"/></marker>
+          <pattern id="plantTexture" width="1.2" height="1.2" patternUnits="userSpaceOnUse">
+            <circle cx="0.25" cy="0.25" r="0.08" fill="#6f9b78" opacity="0.45"/>
+            <circle cx="0.82" cy="0.58" r="0.07" fill="#a9c9a3" opacity="0.28"/>
+            <circle cx="0.48" cy="0.96" r="0.05" fill="#2f5a44" opacity="0.55"/>
+          </pattern>
+        </defs>
+        <rect x="0" y="0" width="30" height="18" rx="0.55" fill="#0b1a14" stroke="rgba(233,228,212,.72)" stroke-width="0.14"/>
+        <path d="M1.2 1.1 H28.8 V16.9 H1.2 Z" fill="none" stroke="rgba(169,201,163,.12)" stroke-width="0.05"/>
+        <path d="M0.7 0.7 H29.3 V2.0 H0.7 Z M0.7 16.0 H29.3 V17.3 H0.7 Z" fill="url(#plantTexture)" opacity="0.52"/>
+        <path d="M11.2 1.0 H18.8 V10.7 H11.2 Z" fill="url(#plantTexture)" opacity="0.34"/>
+        <text x="15" y="11.0" text-anchor="middle" font-family="Inter" font-size="0.48" letter-spacing="0.16" fill="rgba(169,201,163,.38)">OPEN RECEPTION FLOOR</text>
+        <path d="M8 17 C8 14.6 5.7 13.6 5.7 11 C5.7 8.2 5.6 6.0 7.0 4.0 C9.0 1.3 12.2 2.0 15 4.4 C17.9 6.8 20.8 2.0 23.8 3.4 C26.1 4.5 24.7 8.0 23.7 9.8 C22.4 12.1 22 14.0 22 17" fill="none" stroke="rgba(236,192,121,.58)" stroke-width="0.1" stroke-dasharray="0.58 0.36" opacity="0.74" marker-end="url(#arrow)"/>
+        <g id="zones"></g>
+        <g stroke="#e9e4d4" stroke-width="0.14" stroke-linecap="round" fill="none">
+          <path d="M0 18 H6.35 M9.65 18 H20.35 M23.65 18 H30"/>
+        </g>
+        <g stroke="#a9c9a3" stroke-width="0.05" fill="none" opacity="0.72"><path d="M6.35 18 A3.3 3.3 0 0 1 9.65 18"/><path d="M20.35 18 A3.3 3.3 0 0 1 23.65 18"/></g>
+        <text x="8" y="18.95" text-anchor="middle" font-family="Inter" font-size="0.5" letter-spacing="0.16" fill="#f6dca6">ENTRY</text>
+        <text x="22" y="18.95" text-anchor="middle" font-family="Inter" font-size="0.5" letter-spacing="0.16" fill="#f6dca6">EXIT</text>
+        <g stroke="#a9c9a3" stroke-width="0.035" fill="#a9c9a3" font-family="Inter" font-size="0.5" opacity="0.9">
+          <line x1="0" y1="-1.1" x2="30" y2="-1.1"/><line x1="0" y1="-1.35" x2="0" y2="-0.85"/><line x1="30" y1="-1.35" x2="30" y2="-0.85"/>
+          <text x="15" y="-1.4" text-anchor="middle" stroke="none">30.0 m</text>
+          <line x1="-1.6" y1="0" x2="-1.6" y2="18"/><line x1="-1.85" y1="0" x2="-1.35" y2="0"/><line x1="-1.85" y1="18" x2="-1.35" y2="18"/>
+          <text x="-1.95" y="9" text-anchor="middle" stroke="none" transform="rotate(-90 -1.95 9)">18.0 m</text>
+        </g>
+        <g font-family="Inter" font-size="0.5" fill="#a9c9a3">
+          <rect x="0" y="19.7" width="1" height="0.32" fill="#a9c9a3"/><rect x="1" y="19.7" width="1" height="0.32" fill="#0b1a14" stroke="#a9c9a3" stroke-width="0.03"/><rect x="2" y="19.7" width="1" height="0.32" fill="#a9c9a3"/><rect x="3" y="19.7" width="1" height="0.32" fill="#0b1a14" stroke="#a9c9a3" stroke-width="0.03"/><rect x="4" y="19.7" width="1" height="0.32" fill="#a9c9a3"/>
+          <text x="0" y="20.85" stroke="none">0</text><text x="5" y="20.85" text-anchor="middle" stroke="none">5 m</text>
+        </g>
+        <g transform="translate(28.25 1.45)"><circle r="0.86" fill="rgba(8,18,13,.42)" stroke="#a9c9a3" stroke-width="0.05" opacity="0.82"/><path d="M0 0.58 L0 -0.58 M0 -0.58 L-0.24 -0.24 M0 -0.58 L0.24 -0.24" stroke="#ecc079" stroke-width="0.07" fill="none"/><text x="0" y="-1.02" text-anchor="middle" font-family="Inter" font-size="0.5" fill="#f6dca6">N</text></g>
+      </svg>
+      <div class="planhint">Tap a numbered zone to open its realistic rendering and sensory notes</div>
+    </div>
+  </section>
+
+</main>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modalcard" id="modalcard">
+    <button class="mclose" id="mclose" aria-label="Close">✕</button>
+    <div id="modalbody"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+  requestAnimationFrame(function(){ document.body.classList.add('ready'); });
+
+  var SENSE={light:'Light',texture:'Texture',sound:'Sound',taste:'Taste',smell:'Smell'};
+
+  /* launch tee, with all artwork clipped to the fabric */
+  var TEE='<g aria-label="Black launch tee with integrated printed design">'
+   +'<defs><path id="teeShape" d="M80 25 L48 49 L27 96 L55 114 L63 101 L63 204 C78 210 161 210 177 204 L177 101 L185 114 L213 96 L192 49 L160 25 L149 25 C145 43 95 43 91 25 Z"/>'
+   +'<clipPath id="teeClip"><use href="#teeShape"/></clipPath>'
+   +'<linearGradient id="teeBody" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3b3d"/><stop offset="0.48" stop-color="#242428"/><stop offset="1" stop-color="#17171b"/></linearGradient>'
+   +'<linearGradient id="teeFold" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="rgba(255,255,255,.18)"/><stop offset=".48" stop-color="rgba(255,255,255,0)"/><stop offset="1" stop-color="rgba(0,0,0,.34)"/></linearGradient>'
+   +'<filter id="fabric" x="-10%" y="-10%" width="120%" height="120%"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="8" result="noise"/><feColorMatrix in="noise" type="saturate" values="0"/><feBlend in="SourceGraphic" mode="multiply" opacity=".16"/></filter></defs>'
+   +'<use href="#teeShape" fill="url(#teeBody)" stroke="#101014" stroke-width="1.2" filter="url(#fabric)"/>'
+   +'<g clip-path="url(#teeClip)" opacity=".9"><path d="M60 54 C75 70 72 161 68 204" stroke="url(#teeFold)" stroke-width="9" fill="none" opacity=".32"/><path d="M181 55 C166 80 170 160 173 204" stroke="rgba(0,0,0,.32)" stroke-width="10" fill="none"/><path d="M118 46 C113 92 116 151 112 204" stroke="rgba(255,255,255,.08)" stroke-width="5" fill="none"/><path d="M134 47 C139 102 136 157 141 204" stroke="rgba(0,0,0,.22)" stroke-width="4" fill="none"/></g>'
+   +'<path d="M90 26 Q120 47 150 26" fill="none" stroke="#0f0f13" stroke-width="5"/><path d="M98 29 Q120 40 142 29" fill="none" stroke="rgba(238,232,213,.16)" stroke-width="1.2"/>'
+   +'<g clip-path="url(#teeClip)" font-family="Inter, Arial, sans-serif" text-anchor="middle">'
+   +'<circle cx="106" cy="98" r="24" fill="#dac799" opacity=".9"/><circle cx="143" cy="124" r="21" fill="#2f5f90" opacity=".86"/>'
+   +'<g stroke="#e5d6b5" stroke-width="1.15" fill="none" stroke-linecap="round" opacity=".9"><path d="M90 150 C100 128 106 110 111 85"/><path d="M118 156 C121 132 123 105 128 78"/><path d="M146 156 C140 132 139 111 137 89"/><path d="M90 126 q-9 -7 -16 -5 M98 115 q-7 -10 -4 -18 M111 103 q8 -6 17 -3 M124 128 q9 -8 19 -7 M139 112 q10 -8 20 -5 M149 140 q8 -6 17 -5"/></g>'
+   +'<g font-weight="800" letter-spacing=".35" opacity=".92"><text x="120" y="70" font-size="9.5" fill="#efeada">WE CAN BUILD</text><text x="120" y="175" font-size="10" fill="#efeada">A KINDER, BRAVER WORLD</text><text x="120" y="188" font-size="10" fill="#6ca7de">TOGETHER</text></g>'
+   +'<text x="120" y="198" font-weight="700" font-size="3.8" letter-spacing=".35" fill="#d8d3c4">BORN THIS WAY FOUNDATION / COTTON ON FOUNDATION</text>'
+   +'</g></g>';
+  var tm=document.getElementById('teeMount');
+  if(tm) tm.innerHTML='<svg class="tee" width="232" height="232" viewBox="0 0 240 232">'+TEE+'</svg>';
+
+  /* zones, shared by plan, legend and mockups */
+  var ZONES=[
+    {key:'threshold',n:1,name:'Threshold',sub:'Arrival',senses:['light','smell','sound'],x:1.5,y:12.0,w:13.0,h:4.5,tint:'rgba(236,192,121,.12)',img:'assets/zone-threshold.png',
+      blurb:'A planted archway pulls guests in off the street. Low light, a soft scent and the sound of water set the mood before anyone explains a thing.',
+      how:{light:'Warm, low canopy wash, like dusk indoors.',smell:'Green and blossom, lifted from the Foundation scents.',sound:'Distant water and the rustle of leaves.'}},
+    {key:'learning',n:2,name:'Learning',sub:'Pillar one, education',senses:['light','texture'],x:1.5,y:6.4,w:8.0,h:4.1,tint:'rgba(214,162,90,.13)',img:'assets/zone-learning.png',
+      blurb:'The education work, shown in a pool of warm reading light, with surfaces you are meant to touch.',
+      how:{light:'Warm reading pools, soft on the eyes.',texture:'Recycled paper, woven cloth and raw timber.'}},
+    {key:'wellbeing',n:3,name:'Wellbeing',sub:'Pillar two, mental health',senses:['sound','smell'],x:1.5,y:1.5,w:8.0,h:4.1,tint:'rgba(120,175,160,.13)',img:'assets/zone-wellbeing.png',
+      blurb:'The room slows down for the mental health work. Cool light, soft sound and a clean note of tea and water.',
+      how:{sound:'Low and unhurried, easy to settle into.',smell:'Clean green tea and water, never heavy.'}},
+    {key:'greencities',n:4,name:'Green Cities',sub:'Pillar three, environment',senses:['texture','light','smell'],hero:true,x:11.5,y:1.5,w:7.0,h:8.5,tint:'rgba(111,155,120,.20)',img:'assets/zone-green-cities.png',
+      blurb:'A living wall grown indoors, the Green Cities project you can stand inside. The high point of the night.',
+      how:{texture:'Real plants and moss within reach.',light:'Canopy shafts, like sun through trees.',smell:'Soil after rain, fresh and earthy.'}},
+    {key:'tasting',n:5,name:'Tasting Garden',sub:'Signature bar',senses:['taste','smell'],x:20.5,y:1.5,w:8.0,h:4.1,tint:'rgba(200,165,95,.13)',img:'assets/zone-tasting.png',
+      blurb:'A botanical Green Cities pour, garden to glass, served zero waste. A spirited version and an alcohol free one.',
+      how:{taste:'Green, herbal and bright with citrus.',smell:'Crushed herbs and zest, right at the glass.'}},
+    {key:'reveal',n:6,name:'The Reveal',sub:'Launch plinth',senses:['light','texture','sound','taste','smell'],x:20.5,y:6.4,w:8.0,h:4.1,tint:'rgba(246,220,166,.17)',img:'assets/zone-reveal.png',
+      blurb:'The light lifts and the launch tee rises on a plinth. All five senses step up together for the finale.',
+      how:{light:'A bright bloom after the dusk.',texture:'Soft organic cotton you can handle.',sound:'The score warms and opens up.',taste:'A last sip of the garden pour.',smell:'A clean lift of citrus.'}},
+    {key:'pledge',n:7,name:'Pledge and Exit',sub:'Give-back station',senses:[],x:15.5,y:12.0,w:13.0,h:4.5,tint:'rgba(111,155,120,.13)',img:'assets/zone-pledge.png',
+      blurb:'A give-back stand on the way out, with Foundation totes and a small sapling for every guest to take home.',
+      how:{}}
+  ];
+
+  /* build clickable zones on the plan */
+  (function(){
+    var host=document.getElementById('zones'); if(!host) return;
+    var s='';
+    ZONES.forEach(function(z){
+      var cx=z.x+z.w/2;
+      var labelSize=z.w<8.1?0.72:0.84;
+      s+='<g class="pz" data-key="'+z.key+'" role="button" tabindex="0" aria-label="'+z.name+', open mockup">';
+      s+='<rect class="zrect" x="'+z.x+'" y="'+z.y+'" width="'+z.w+'" height="'+z.h+'" rx="0.38" fill="'+z.tint+'" stroke="'+(z.hero?'#ecc079':'#6f9b78')+'" stroke-width="'+(z.hero?0.11:0.075)+'" stroke-opacity="'+(z.hero?0.95:0.68)+'"/>';
+      s+='<rect x="'+(z.x+0.18)+'" y="'+(z.y+0.18)+'" width="'+(z.w-0.36)+'" height="'+(z.h-0.36)+'" rx="0.28" fill="none" stroke="rgba(242,238,226,.12)" stroke-width="0.035"/>';
+      s+='<circle cx="'+(z.x+0.78)+'" cy="'+(z.y+0.78)+'" r="0.43" fill="rgba(8,18,13,.76)" stroke="'+(z.hero?'#ecc079':'#a9c9a3')+'" stroke-width="0.055"/>';
+      s+='<text x="'+(z.x+0.78)+'" y="'+(z.y+0.96)+'" text-anchor="middle" font-family="Inter" font-weight="700" font-size="0.48" fill="#f6dca6">'+z.n+'</text>';
+      s+='<text x="'+cx+'" y="'+(z.y+1.34)+'" text-anchor="middle" font-family="Cormorant Garamond, Georgia, serif" font-size="'+labelSize+'" fill="#f2eee2">'+z.name+'</text>';
+      s+='<text x="'+cx+'" y="'+(z.y+2.04)+'" text-anchor="middle" font-family="Inter, sans-serif" font-size="0.36" letter-spacing="0.05" fill="#a9c9a3">'+z.sub+'</text>';
+      s+='<text x="'+cx+'" y="'+(z.y+z.h-0.52)+'" text-anchor="middle" font-family="Inter, sans-serif" font-size="0.36" fill="rgba(169,201,163,.82)">'+z.w.toFixed(1)+' x '+z.h.toFixed(1)+' m</text>';
+      s+='</g>';
+    });
+    host.innerHTML=s;
+  })();
+
+  /* ---- zone mockups ---- */
+  function leafField(x0,y0,x1,y1,cols,rows){
+    var s='',gx=(x1-x0)/cols,gy=(y1-y0)/rows,greens=['#2f5a44','#3f6f57','#56825f','#6f9b78','#1f4533'];
+    for(var r=0;r<rows;r++)for(var c=0;c<cols;c++){var x=x0+c*gx+(Math.random()*gx*.4),y=y0+r*gy+(Math.random()*gy*.4),sz=8+Math.random()*10;s+='<rect x="'+x.toFixed(0)+'" y="'+y.toFixed(0)+'" width="'+sz.toFixed(0)+'" height="'+(sz*1.2).toFixed(0)+'" rx="'+(sz/2).toFixed(0)+'" fill="'+greens[(Math.random()*greens.length)|0]+'" transform="rotate('+((Math.random()*60-30)|0)+' '+(x+sz/2).toFixed(0)+' '+(y+sz/2).toFixed(0)+')" opacity="'+(0.6+Math.random()*0.35).toFixed(2)+'"/>';}
+    return s;
+  }
+  function shafts(){return '<g opacity="0.5" style="mix-blend-mode:screen"><path d="M150 0 L210 0 L150 260 L120 260 Z" fill="rgba(246,220,166,.22)"/><path d="M360 0 L420 0 L380 260 L340 260 Z" fill="rgba(246,220,166,.16)"/></g>';}
+  function prop(key){
+    if(key==='threshold') return '<g fill="#13241c" opacity=".7"><rect x="60" y="120" width="26" height="140"/><rect x="96" y="92" width="20" height="168"/><rect x="520" y="110" width="24" height="150"/><rect x="556" y="78" width="18" height="182"/></g>'
+      +'<g stroke="#6f9b78" stroke-width="6" fill="none"><path d="M250 300 L250 150 Q250 110 290 110 L350 110 Q390 110 390 150 L390 300"/></g>'
+      +'<g fill="#3f6f57">'+[ '290,108','320,100','350,108','252,150','388,150','252,200','388,200'].map(function(p){var a=p.split(',');return '<circle cx="'+a[0]+'" cy="'+a[1]+'" r="13"/>';}).join('')+'</g>'
+      +'<ellipse cx="320" cy="296" rx="120" ry="26" fill="rgba(236,192,121,.28)"/><ellipse cx="320" cy="250" rx="150" ry="46" fill="rgba(169,201,163,.10)"/>';
+    if(key==='learning') return '<g stroke="#3f6f57" stroke-width="2" opacity=".45">'+[80,110,140,170].map(function(y){return '<line x1="210" y1="'+y+'" x2="440" y2="'+y+'"/>';}).join('')+[210,260,310,360,410].map(function(x){return '<line x1="'+x+'" y1="60" x2="'+x+'" y2="180"/>';}).join('')+'</g>'
+      +'<line x1="320" y1="0" x2="320" y2="66" stroke="#6f9b78" stroke-width="2"/><circle cx="320" cy="78" r="13" fill="#f6dca6"/><ellipse cx="320" cy="120" rx="120" ry="66" fill="rgba(246,220,166,.20)"/>'
+      +'<rect x="225" y="266" width="190" height="58" fill="#3a2e22"/><rect x="210" y="250" width="220" height="18" rx="4" fill="#5a4733"/>'
+      +'<g fill="#caa063"><rect x="240" y="234" width="44" height="14"/><rect x="246" y="222" width="34" height="12"/><rect x="356" y="232" width="40" height="16"/></g>';
+    if(key==='wellbeing') return '<ellipse cx="320" cy="150" rx="250" ry="120" fill="rgba(120,175,160,.16)"/>'
+      +'<rect x="120" y="300" width="400" height="10" rx="5" fill="rgba(150,200,200,.32)"/>'
+      +'<ellipse cx="235" cy="300" rx="72" ry="26" fill="#27433a"/><path d="M170 300 Q235 248 300 300 Z" fill="#2f5247"/>'
+      +'<ellipse cx="420" cy="306" rx="72" ry="26" fill="#27433a"/><path d="M355 306 Q420 256 485 306 Z" fill="#2f5247"/>'
+      +'<g fill="#3f6f57" opacity=".7"><circle cx="120" cy="250" r="10"/><circle cx="520" cy="245" r="10"/></g>';
+    if(key==='greencities') return leafField(60,30,584,232,16,7)
+      +shafts()
+      +'<rect x="313" y="180" width="14" height="92" fill="#3a2e22"/><circle cx="320" cy="172" r="58" fill="rgba(63,111,87,.9)"/><circle cx="276" cy="192" r="38" fill="rgba(86,130,95,.85)"/><circle cx="366" cy="192" r="38" fill="rgba(86,130,95,.85)"/>'
+      +'<ellipse cx="320" cy="160" rx="220" ry="80" fill="rgba(246,220,166,.10)" style="mix-blend-mode:screen"/>';
+    if(key==='tasting') return '<g fill="#1d2a22">'+[150,180,210].map(function(yy){return '';}).join('')+'</g>'
+      +'<g>'+[200,230,260,380,410,440].map(function(x){return '<rect x="'+x+'" y="150" width="10" height="50" rx="3" fill="#2f5247"/>';}).join('')+'</g>'
+      +'<rect x="70" y="232" width="86" height="30" rx="3" fill="#3a2e22"/>'+leafField(74,206,150,232,4,1)
+      +'<ellipse cx="330" cy="150" rx="210" ry="84" fill="rgba(200,165,95,.16)"/>'
+      +'<rect x="150" y="272" width="350" height="66" rx="6" fill="#2e2620"/><rect x="150" y="262" width="350" height="12" rx="6" fill="#5a4733"/>'
+      +'<g>'+[230,290,350,410].map(function(x){return '<path d="M'+x+' 250 L'+(x+20)+' 250 L'+(x+16)+' 268 L'+(x+4)+' 268 Z" fill="rgba(170,205,180,.5)" stroke="#a9c9a3" stroke-width="1"/><circle cx="'+(x+10)+'" cy="248" r="4" fill="#ecc079"/>';}).join('')+'</g>';
+    if(key==='reveal') return '<ellipse cx="320" cy="150" rx="270" ry="150" fill="rgba(246,220,166,.32)" style="mix-blend-mode:screen"/>'
+      +shafts()
+      +'<path d="M268 322 L372 322 L398 360 L242 360 Z" fill="#1c2a22" stroke="#6f9b78" stroke-width="1.5"/><rect x="292" y="250" width="56" height="74" fill="#15211b"/>'
+      +'<g transform="translate(200 28) scale(0.78)">'+TEE+'</g>';
+    if(key==='pledge') return '<path d="M225 300 L225 168 Q225 138 320 138 Q415 138 415 168 L415 300" fill="none" stroke="rgba(236,192,121,.4)" stroke-width="3"/>'
+      +'<text x="320" y="120" text-anchor="middle" font-family="Inter" font-weight="700" font-size="16" letter-spacing="6" fill="rgba(246,220,166,.85)">EXIT</text>'
+      +'<rect x="240" y="282" width="160" height="56" rx="4" fill="#2e2620"/><rect x="240" y="274" width="160" height="12" rx="4" fill="#5a4733"/>'
+      +'<g fill="#3f6f57">'+[270,310,350].map(function(x){return '<rect x="'+x+'" y="250" width="26" height="30" rx="2"/><path d="M'+(x+4)+' 250 q9 -8 18 0" fill="none" stroke="#a9c9a3" stroke-width="1.4"/>';}).join('')+'</g>'
+      +'<g>'+[150,470].map(function(x){return '<rect x="'+x+'" y="296" width="30" height="30" rx="3" fill="#3a2e22"/><path d="M'+(x+15)+' 296 V276 M'+(x+15)+' 286 q-10 -2 -12 -12 q12 0 12 12 M'+(x+15)+' 282 q10 -2 12 -12 q-12 0 -12 12" stroke="#6f9b78" stroke-width="2" fill="#6f9b78"/>';}).join('')+'</g>';
+    return '';
+  }
+  function accent(key){var z=ZONES.filter(function(q){return q.key===key;})[0];return z?z.tint.replace(/[\d.]+\)$/,'.5)'):'rgba(63,111,87,.4)';}
+  function buildMock(z){
+    var dots='';for(var i=0;i<6;i++){dots+='<span class="mockdot" style="left:'+(10+Math.random()*80).toFixed(0)+'%;top:'+(20+Math.random()*55).toFixed(0)+'%;width:'+(3+Math.random()*4).toFixed(0)+'px;height:'+(3+Math.random()*4).toFixed(0)+'px;animation-delay:'+(-Math.random()*7).toFixed(1)+'s"></span>';}
+    var chips='';
+    if(z.senses.length){ z.senses.forEach(function(k){ chips+='<div class="mchip"><svg><use href="#i-'+k+'"/></svg><div><b>'+SENSE[k]+'</b><span>'+z.how[k]+'</span></div></div>'; }); }
+    else { chips='<div class="mchip" style="grid-column:1/-1"><svg><use href="#i-smell"/></svg><div><b>Community and give-back</b><span>A warm send off. Every guest leaves with a Foundation tote and a sapling, so the night keeps going at home.</span></div></div>'; }
+    return '<div class="mockeyebrow">Zone 0'+z.n+' / '+z.sub+'</div><h3 id="modalTitle">'+z.name+'</h3>'
+      +'<div class="mockstage"><img class="mockphoto" src="'+z.img+'" alt="Realistic rendering of '+z.name+' zone">'+dots+'<span class="mockcaption">Realistic section rendering</span></div>'
+      +'<p class="mockblurb">'+z.blurb+'</p>'
+      +'<div class="mockchips">'+chips+'</div>';
+  }
+
+  var modal=document.getElementById('modal'), modalbody=document.getElementById('modalbody'), lastFocus=null;
+  function openZone(key){ var z=ZONES.filter(function(q){return q.key===key;})[0]; if(!z) return; lastFocus=document.activeElement; modalbody.innerHTML=buildMock(z); modal.classList.add('open'); document.getElementById('mclose').focus(); }
+  function closeModal(){ modal.classList.remove('open'); modalbody.innerHTML=''; if(lastFocus&&lastFocus.focus) lastFocus.focus(); }
+  document.getElementById('mclose').addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e){ if(e.target===modal) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape'&&modal.classList.contains('open')) closeModal(); });
+  document.querySelectorAll('.pz').forEach(function(g){
+    g.addEventListener('click', function(){ openZone(g.dataset.key); });
+    g.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); openZone(g.dataset.key); } });
+  });
+
+  /* ---- vines ---- */
+  (function(host,count){ if(!host) return; for(var i=0;i<count;i++){ var v=document.createElement('div'); v.className='vine'; var h=60+Math.random()*120; v.style.left=(6+Math.random()*88)+'%'; v.style.height=h+'px'; v.style.animationDelay=(-Math.random()*7)+'s'; v.style.animationDuration=(6+Math.random()*4)+'s'; var leaf=document.createElement('i'); leaf.style.bottom='-4px'; v.appendChild(leaf); host.appendChild(v); } })(document.getElementById('vines-cover'), reduced?6:16);
+
+  /* ---- living wall ---- */
+  (function(){ var wall=document.getElementById('wall'); if(!wall) return; var greens=['#2f5a44','#3f6f57','#56825f','#6f9b78','#88ad84','#1f4533'], n=reduced?60:160, frag=document.createDocumentFragment(); for(var i=0;i<n;i++){ var l=document.createElement('span'); l.className='leaf'; var s=10+Math.random()*30; l.style.width=s+'px'; l.style.height=(s*1.15)+'px'; l.style.left=(Math.random()*100)+'%'; l.style.top=(Math.random()*100)+'%'; l.style.background=greens[(Math.random()*greens.length)|0]; l.style.setProperty('--r',((Math.random()*90-45)|0)+'deg'); l.style.opacity=(0.55+Math.random()*0.4).toFixed(2); l.style.animationDelay=(-Math.random()*9)+'s'; l.style.boxShadow='0 2px 6px rgba(0,0,0,.25)'; frag.appendChild(l); } wall.appendChild(frag); })();
+
+  /* ---- particles ---- */
+  var cv=document.getElementById('atmos'), ctx=cv.getContext('2d'), W,H,DPR,parts=[];
+  function size(){ DPR=Math.min(window.devicePixelRatio||1,2); W=cv.width=innerWidth*DPR; H=cv.height=innerHeight*DPR; cv.style.width=innerWidth+'px'; cv.style.height=innerHeight+'px'; }
+  function seed(){ var n=reduced?0:Math.min(80,Math.round(innerWidth*innerHeight/22000)); parts=[]; for(var i=0;i<n;i++) parts.push(mk()); }
+  function mk(){ var warm=Math.random()<0.5; return {x:Math.random()*W,y:Math.random()*H,r:(0.6+Math.random()*1.9)*DPR,vx:(-0.12+Math.random()*0.24)*DPR,vy:(-0.32-Math.random()*0.4)*DPR,a:0.2+Math.random()*0.5,tw:Math.random()*Math.PI*2,c:warm?'236,192,121':'150,190,150'}; }
+  function draw(){ ctx.clearRect(0,0,W,H); ctx.globalCompositeOperation='lighter'; for(var i=0;i<parts.length;i++){ var p=parts[i]; p.x+=p.vx; p.y+=p.vy; p.tw+=0.02; if(p.y<-10){p.y=H+10;p.x=Math.random()*W;} if(p.x<-10)p.x=W+10; if(p.x>W+10)p.x=-10; var al=p.a*(0.55+0.45*Math.sin(p.tw)); var g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4); g.addColorStop(0,'rgba('+p.c+','+al+')'); g.addColorStop(1,'rgba('+p.c+',0)'); ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*4,0,7); ctx.fill(); } ctx.globalCompositeOperation='source-over'; if(!reduced) requestAnimationFrame(draw); }
+  size(); seed(); if(!reduced) requestAnimationFrame(draw); else draw();
+  var rsz; addEventListener('resize',function(){ clearTimeout(rsz); rsz=setTimeout(function(){ size(); seed(); if(reduced) draw(); },200); });
+
+  /* ---- reveal, legend, mood, parallax ---- */
+  var scenes=[].slice.call(document.querySelectorAll('.scene'));
+  var senseEls={}; [].slice.call(document.querySelectorAll('.sense')).forEach(function(s){ senseEls[s.dataset.sense]=s; });
+  var active=[], ratios=new Map();
+  function setSenses(str){ var on=(str||'').split(',').filter(Boolean); for(var k in senseEls){ senseEls[k].classList.toggle('active', on.indexOf(k)>=0); } }
+  var io=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){ ratios.set(e.target, e.isIntersecting? e.intersectionRatio:0); if(e.intersectionRatio>0.12) e.target.classList.add('in'); });
+    active=scenes.filter(function(s){ return (ratios.get(s)||0)>0; });
+    var cur=null,mx=0; ratios.forEach(function(r,el){ if(r>mx){mx=r;cur=el;} });
+    if(cur){ setSenses(cur.dataset.senses); document.body.dataset.scene=cur.dataset.key; setMood(cur.dataset.mood==='bright'?1:0); }
+  },{threshold:[0,0.12,0.3,0.5,0.7,1]});
+  scenes.forEach(function(s){ io.observe(s); });
+  var ticking=false;
+  function para(){ var vh=innerHeight; for(var i=0;i<active.length;i++){ var s=active[i], top=s.getBoundingClientRect().top, ls=s.querySelectorAll('[data-depth]'); for(var j=0;j<ls.length;j++){ var d=parseFloat(ls[j].dataset.depth); ls[j].style.transform='translate3d(0,'+(top*d)+'px,0)'; } } var sc=document.documentElement, frac=sc.scrollTop/((sc.scrollHeight-sc.clientHeight)||1), sf=document.getElementById('stemfill'); if(sf) sf.style.height=(frac*100)+'%'; ticking=false; }
+  if(!reduced){ addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(para); } },{passive:true}); para(); }
+  else { var sf=document.getElementById('stemfill'); if(sf) sf.style.height='4%'; }
+
+  /* ---- generative ambient audio (evolving, with harmony and a soft melody) ---- */
+  var AC=window.AudioContext||window.webkitAudioContext;
+  var ac=null, master=null, on=false, built=false, padFilter=null, shimmerGain=null, revGain=null, dry=null, conv=null;
+  var BASE_CUT=1100, padOscs=[], bassOsc=null, chordIdx=0, stepTimer=null, arpTimer=null, dropTimer=null, arpStep=0;
+  // gentle hopeful loop: Cmaj9, Am9, Fmaj7, G6
+  var CHORDS=[[130.81,164.81,196.00,293.66],[110.00,130.81,164.81,246.94],[87.31,130.81,164.81,220.00],[98.00,123.47,146.83,196.00]];
+  var BASS=[65.41,55.00,87.31,98.00];
+
+  function impulse(c){ var len=Math.floor(c.sampleRate*3.4), b=c.createBuffer(2,len,c.sampleRate); for(var ch=0;ch<2;ch++){ var d=b.getChannelData(ch); for(var i=0;i<len;i++){ d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.4); } } return b; }
+  function brown(c){ var len=Math.floor(c.sampleRate*5), b=c.createBuffer(1,len,c.sampleRate), d=b.getChannelData(0), last=0; for(var i=0;i<len;i++){ var w=Math.random()*2-1; last=(last+0.02*w)/1.02; d[i]=last*3.2; } return b; }
+  function lfo(c,f,depth,target){ var o=c.createOscillator(); o.frequency.value=f; var g=c.createGain(); g.gain.value=depth; o.connect(g); g.connect(target); o.start(); return o; }
+  function panner(){ return ac.createStereoPanner? ac.createStereoPanner() : ac.createGain(); }
+
+  function build(){
+    ac=new AC();
+    master=ac.createGain(); master.gain.value=0.0001; master.connect(ac.destination);
+    conv=ac.createConvolver(); conv.buffer=impulse(ac);
+    revGain=ac.createGain(); revGain.gain.value=0.52; conv.connect(revGain); revGain.connect(master);
+    dry=ac.createGain(); dry.gain.value=0.9; dry.connect(master);
+    function bus(node){ node.connect(dry); node.connect(conv); }
+
+    // pad voices that glide between chords
+    padFilter=ac.createBiquadFilter(); padFilter.type='lowpass'; padFilter.frequency.value=BASE_CUT; padFilter.Q.value=3;
+    var padPan=panner(); var padGain=ac.createGain(); padGain.gain.value=0.2; padFilter.connect(padPan); padPan.connect(padGain); bus(padGain);
+    var first=CHORDS[0], voiceG=[0.5,0.4,0.34,0.26];
+    first.forEach(function(f,idx){ var o=ac.createOscillator(); o.type= idx<2?'sine':'triangle'; o.frequency.value=f; o.detune.value=(idx-1.5)*3; var g=ac.createGain(); g.gain.value=voiceG[idx]; o.connect(g); g.connect(padFilter); o.start(); padOscs.push(o); });
+    lfo(ac,0.05,260,padFilter.frequency);
+    lfo(ac,0.07,0.05,padGain.gain);
+    if(padPan.pan) lfo(ac,0.04,0.6,padPan.pan);
+
+    // soft bass on the chord root
+    bassOsc=ac.createOscillator(); bassOsc.type='sine'; bassOsc.frequency.value=BASS[0]; var bg=ac.createGain(); bg.gain.value=0.16; bassOsc.connect(bg); bg.connect(dry); bassOsc.start();
+
+    // shimmer that brightens at the reveal
+    shimmerGain=ac.createGain(); shimmerGain.gain.value=0;
+    [493.88,659.25,987.77].forEach(function(f){ var o=ac.createOscillator(); o.type='sine'; o.frequency.value=f; var g=ac.createGain(); g.gain.value=0.5; o.connect(g); g.connect(shimmerGain); o.start(); });
+    bus(shimmerGain);
+
+    // wind / leaves
+    var ns=ac.createBufferSource(); ns.buffer=brown(ac); ns.loop=true; var bp=ac.createBiquadFilter(); bp.type='bandpass'; bp.frequency.value=520; bp.Q.value=0.6; var ng=ac.createGain(); ng.gain.value=0.06; ns.connect(bp); bp.connect(ng); bus(ng); ns.start(); lfo(ac,0.03,150,bp.frequency);
+
+    // arpeggio: a slow plucked line from the current chord, one octave up, panned with movement
+    var arpPan=panner(); if(arpPan.pan){ arpPan.pan.value=0; lfo(ac,0.06,0.7,arpPan.pan); } arpPan.connect(dry); arpPan.connect(conv);
+    window.__arpPan=arpPan;
+    function arpStepFn(){ if(!on||!ac) return; var ch=CHORDS[chordIdx], note=ch[arpStep%ch.length]*2, t=ac.currentTime, o=ac.createOscillator(); o.type='triangle'; o.frequency.value=note; var g=ac.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.085,t+0.02); g.gain.exponentialRampToValueAtTime(0.0001,t+1.4); o.connect(g); g.connect(arpPan); o.start(t); o.stop(t+1.5); arpStep++; arpTimer=setTimeout(arpStepFn, on===true && document.body.dataset.scene==='reveal' ? 520 : 760); }
+    arpTimer=setTimeout(arpStepFn,900);
+
+    // rarer bell droplets, kept in key
+    function drop(){ if(!on||!ac) return; var ch=CHORDS[chordIdx], note=ch[(Math.random()*ch.length)|0]*2, t=ac.currentTime, o=ac.createOscillator(); o.type='sine'; o.frequency.value=note; var g=ac.createGain(); g.gain.setValueAtTime(0.0001,t); g.gain.linearRampToValueAtTime(0.1,t+0.2); g.gain.exponentialRampToValueAtTime(0.0001,t+2.8); o.connect(g); g.connect(conv); g.connect(dry); o.start(t); o.stop(t+3); dropTimer=setTimeout(drop, 4200+Math.random()*4200); }
+    dropTimer=setTimeout(drop,3000);
+
+    // chord progression: retune pad and bass every 8s with a smooth glide
+    function step(){ if(!ac) return; chordIdx=(chordIdx+1)%CHORDS.length; var ch=CHORDS[chordIdx], t=ac.currentTime; padOscs.forEach(function(o,i){ o.frequency.setTargetAtTime(ch[i], t, 1.6); }); bassOsc.frequency.setTargetAtTime(BASS[chordIdx], t, 1.6); stepTimer=setTimeout(step,8000); }
+    stepTimer=setTimeout(step,8000);
+
+    built=true;
+  }
+
+  function setMood(b){ if(!ac||!built) return; var t=ac.currentTime; try{ padFilter.frequency.cancelScheduledValues(t); padFilter.frequency.setTargetAtTime(BASE_CUT+850*b, t, 1.2); shimmerGain.gain.setTargetAtTime(0.06*b, t, 1.4); revGain.gain.setTargetAtTime(0.52+0.16*b, t, 1.2); }catch(e){} }
+  var sbtn=document.getElementById('sound'), begin=document.getElementById('begin'), siteTrack=document.getElementById('siteTrack'), mediaReady=false, mediaFade=null;
+  function reflect(state){ sbtn.setAttribute('aria-pressed', state?'true':'false'); }
+  function fadeTrack(target){ if(!siteTrack) return; clearInterval(mediaFade); mediaFade=setInterval(function(){ var next=siteTrack.volume+(target-siteTrack.volume)*0.18; siteTrack.volume=Math.max(0,Math.min(0.72,next)); if(Math.abs(siteTrack.volume-target)<0.015){ siteTrack.volume=target; clearInterval(mediaFade); if(target===0) siteTrack.pause(); } },40); }
+  function enableGenerated(){ try{ if(!built) build(); if(ac.state==='suspended') ac.resume(); on=true; var t=ac.currentTime, v=Math.max(master.gain.value,0.0001); master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(v,t); master.gain.exponentialRampToValueAtTime(0.6, t+1.1); reflect(true); sbtn.classList.remove('hint'); }catch(e){ console.warn('audio',e); } }
+  function enable(){ if(siteTrack&&!siteTrack.dataset.failed){ siteTrack.volume=0; var play=siteTrack.play(); if(play&&play.then){ play.then(function(){ mediaReady=true; on=true; fadeTrack(0.72); reflect(true); sbtn.classList.remove('hint'); }).catch(function(){ siteTrack.dataset.failed='true'; mediaReady=false; enableGenerated(); }); return; } } enableGenerated(); }
+  function disable(){ if(mediaReady&&siteTrack){ on=false; mediaReady=false; fadeTrack(0); reflect(false); return; } if(!ac){ reflect(false); return; } on=false; var t=ac.currentTime, v=Math.max(master.gain.value,0.0001); master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(v,t); master.gain.exponentialRampToValueAtTime(0.0001, t+0.8); reflect(false); }
+  function toggle(){ if(on) disable(); else enable(); }
+  sbtn.addEventListener('click', toggle);
+  if(begin) begin.addEventListener('click', function(){ if(!on) enable(); document.querySelector('[data-key="threshold"]').scrollIntoView({behavior: reduced?'auto':'smooth'}); });
+  [].slice.call(document.querySelectorAll('.sense')).forEach(function(s){ function go(){ var t=document.querySelector('[data-key="'+s.dataset.go+'"]'); if(t) t.scrollIntoView({behavior: reduced?'auto':'smooth'}); } s.addEventListener('click', go); s.addEventListener('keydown', function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); go(); } }); });
+  if(!reduced) sbtn.classList.add('hint');
+  document.addEventListener('visibilitychange', function(){ if(mediaReady&&siteTrack){ if(document.hidden){ fadeTrack(0); } else { siteTrack.play().catch(function(){}); fadeTrack(0.72); } return; } if(!ac||!on) return; var t=ac.currentTime, v=Math.max(master.gain.value,0.0001); master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(v,t); master.gain.exponentialRampToValueAtTime(document.hidden?0.0001:0.6, t+(document.hidden?0.4:1.0)); });
+})();
+</script>
+</body>
+</html>
