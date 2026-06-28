@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/",
+      "destination": "/cotton-on-foundation-launch-experience.html"
+    }
+  ]
+}
