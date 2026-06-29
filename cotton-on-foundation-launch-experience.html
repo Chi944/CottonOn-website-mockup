@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="assets/images/favicon.svg" type="image/svg+xml">
 <title>Where Good Takes Root · Cotton On Foundation Launch · Atmospherics Studio</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;700;800&display=swap');
@@ -80,10 +81,10 @@ body.ready{opacity:1}
 .scene::before{top:-1px;height:46vh;background:linear-gradient(to bottom, rgba(5,12,9,.96), rgba(5,12,9,.62) 38%, rgba(5,12,9,.12) 78%, rgba(5,12,9,0))}
 .scene::after{bottom:-1px;height:48vh;background:linear-gradient(to top, rgba(5,12,9,.97), rgba(5,12,9,.64) 38%, rgba(5,12,9,.14) 76%, rgba(5,12,9,0))}
 .cover::before{display:none}
-.bg{position:absolute;inset:-12vh -2px;z-index:0;overflow:hidden}
+.bg{position:absolute;inset:-4vh -2px;z-index:0;overflow:hidden;background:radial-gradient(90% 80% at 50% 35%, rgba(23,47,34,.82), rgba(5,12,9,.96) 72%)}
 .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg, rgba(4,10,7,.82) 0%, rgba(5,12,9,.52) 42%, rgba(5,12,9,.18) 74%),linear-gradient(to bottom, rgba(5,12,9,.5), rgba(5,12,9,.12) 26%, rgba(5,12,9,.16) 68%, rgba(5,12,9,.7))}
 .layer{position:absolute;inset:0;will-change:transform}
-.scene-photo{background-image:var(--photo);background-size:cover;background-position:center;opacity:.55;filter:saturate(.88) contrast(1.03) brightness(.66);transform:scale(1.018);will-change:transform;transition:opacity .95s ease,filter .95s ease}
+.scene-photo{background-image:var(--photo);background-size:106vw auto;background-repeat:no-repeat;background-position:center 46%;opacity:.55;filter:saturate(.88) contrast(1.03) brightness(.66);transform:scale(1);will-change:transform;transition:opacity .95s ease,filter .95s ease}
 .scene.in .scene-photo,.cover .scene-photo{opacity:.66;filter:saturate(.94) contrast(1.06) brightness(.72)}
 .cover .scene-photo,.reveal .scene-photo{opacity:.68;filter:saturate(.94) contrast(1.06) brightness(.72)}
 .planscene .scene-photo{opacity:.48;filter:saturate(.9) contrast(1.05) brightness(.58)}
@@ -124,7 +125,7 @@ body.ready{opacity:1}
 .craft span{font-size:13.5px;color:rgba(242,238,226,.78);font-weight:300;line-height:1.5}
 
 /* cover */
-.cover{align-items:center;justify-content:center;text-align:center;min-height:100vh;min-height:100svh;padding:clamp(76px,7vh,90px) clamp(20px,7vw,120px) clamp(70px,8vh,96px)}
+.cover{align-items:center;justify-content:center;flex-direction:column;text-align:center;min-height:100vh;min-height:100svh;padding:clamp(70px,6.5vh,88px) clamp(20px,7vw,120px) clamp(118px,14vh,152px)}
 .cover .panel{max-width:760px;opacity:1;transform:none;filter:none;margin-top:clamp(-18px,-2vh,-8px)}
 .cover .kicker{font-size:10.5px;letter-spacing:.38em;text-transform:uppercase;color:var(--sage);margin-bottom:16px}
 .cover h1{font-family:var(--serif);font-weight:500;font-size:clamp(44px,8.7vw,102px);line-height:.96;letter-spacing:-.02em;margin-bottom:6px}
@@ -144,7 +145,7 @@ body.ready{opacity:1}
 .countdown-grid div::before{display:none}
 .countdown-grid b{display:inline-block;font-family:var(--serif);font-weight:500;font-size:clamp(26px,3.25vw,38px);line-height:.9;color:var(--cream);font-variant-numeric:tabular-nums}
 .countdown-grid span{display:block;margin:6px 0 0;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(169,201,163,.96)}
-.scrollcue{position:absolute;bottom:24px;left:50%;z-index:5;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:7px;color:rgba(169,201,163,.84);font-size:9px;letter-spacing:.28em;text-transform:uppercase;text-shadow:0 12px 26px rgba(0,0,0,.5)}
+.scrollcue{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center;gap:7px;margin-top:16px;color:rgba(169,201,163,.84);font-size:9px;letter-spacing:.28em;text-transform:uppercase;text-shadow:0 12px 26px rgba(0,0,0,.5)}
 .scrollcue .mouse{width:20px;height:32px;border:1px solid rgba(246,220,166,.72);border-radius:12px;position:relative;background:rgba(8,18,13,.34);box-shadow:0 0 18px rgba(236,192,121,.18)}
 .scrollcue .mouse::after{content:"";position:absolute;top:6px;left:50%;transform:translateX(-50%);width:3px;height:6px;background:var(--fern);border-radius:2px;animation:scrolld 1.8s ease-in-out infinite}
 @keyframes scrolld{0%{opacity:0;transform:translate(-50%,0)}40%{opacity:1}100%{opacity:0;transform:translate(-50%,11px)}}
@@ -233,9 +234,9 @@ body.ready{opacity:1}
   .sense .dot{width:30px;height:30px}
   .scene{min-height:108svh;padding:16vh 22px 20vh}
   .scene + .scene{margin-top:-6vh}
-  .scene-photo{background-position:center}
-  .bg{inset:-8vh -2px}
-  .cover{min-height:100svh;padding-top:74px;padding-bottom:86px}
+  .scene-photo{background-size:225vw auto;background-position:center 42%}
+  .bg{inset:-2vh -2px}
+  .cover{min-height:100svh;padding-top:70px;padding-bottom:112px}
   .cover .panel{margin-top:0}
   .cover h1{font-size:clamp(42px,14vw,70px)}
   .cover-note{font-size:12.5px;margin-bottom:18px}
@@ -245,7 +246,7 @@ body.ready{opacity:1}
   .countdown-grid div{padding-left:8px}
   .countdown-grid b{font-size:28px}
   .countdown-grid span{display:block;margin:4px 0 0;font-size:8px;letter-spacing:.12em}
-  .cover .scrollcue{bottom:74px;font-size:8px;gap:5px}
+  .cover .scrollcue{font-size:8px;gap:5px;margin-top:12px}
   .scrollcue .mouse{width:17px;height:27px}
   .reveal{display:flex;flex-direction:column;align-items:flex-start;text-align:left}
   .reveal .panel{max-width:none}
@@ -614,7 +615,7 @@ body.ready{opacity:1}
   },{threshold:[0,0.12,0.3,0.5,0.7,1]});
   scenes.forEach(function(s){ io.observe(s); });
   var ticking=false;
-  function para(){ updateSceneMotion(); var vh=innerHeight; for(var i=0;i<active.length;i++){ var s=active[i], top=s.getBoundingClientRect().top, ls=s.querySelectorAll('[data-depth]'); for(var j=0;j<ls.length;j++){ var d=parseFloat(ls[j].dataset.depth), scale=ls[j].classList.contains('scene-photo')?' scale(1.018)':''; ls[j].style.transform='translate3d(0,'+(top*d)+'px,0)'+scale; } } var sc=document.documentElement, frac=sc.scrollTop/((sc.scrollHeight-sc.clientHeight)||1), sf=document.getElementById('stemfill'); if(sf) sf.style.height=(frac*100)+'%'; ticking=false; }
+  function para(){ updateSceneMotion(); var vh=innerHeight; for(var i=0;i<active.length;i++){ var s=active[i], top=s.getBoundingClientRect().top, ls=s.querySelectorAll('[data-depth]'); for(var j=0;j<ls.length;j++){ var d=parseFloat(ls[j].dataset.depth), scale=ls[j].classList.contains('scene-photo')?' scale(1)':''; ls[j].style.transform='translate3d(0,'+(top*d)+'px,0)'+scale; } } var sc=document.documentElement, frac=sc.scrollTop/((sc.scrollHeight-sc.clientHeight)||1), sf=document.getElementById('stemfill'); if(sf) sf.style.height=(frac*100)+'%'; ticking=false; }
   if(!reduced){ addEventListener('scroll',function(){ if(!ticking){ ticking=true; requestAnimationFrame(para); } },{passive:true}); para(); }
   else { var sf=document.getElementById('stemfill'); if(sf) sf.style.height='4%'; }
 
